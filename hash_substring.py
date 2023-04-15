@@ -21,7 +21,7 @@ def print_occurrences(output):
     print(' '.join(map(str, output)))
 
 def get_hash(pattern: str) -> int:
-    B, Q = 256, 101
+    B, Q = 13, 256
     m = len(pattern)
     result = 0
     for i in range(m):
@@ -30,13 +30,8 @@ def get_hash(pattern: str) -> int:
 
 def get_occurrences(pattern, text):
     output = []
-    B, Q = 256, 101
     pattern_len = len(pattern)
     main_text_len = len(text)
-
-    mp = 1
-    for _ in range(1, pattern_len):
-        mp = (mp * B) % Q
 
     phash = get_hash(pattern)
     thash = get_hash(text[:pattern_len])
