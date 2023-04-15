@@ -3,8 +3,9 @@
 def read_input():
     data = input()
     if "F" in data:
-        data = input()
-        with open("tests/" + data) as f:
+        #data = input()
+        #with open("tests/" + data) as f:
+        with open("tests/06") as f:
             pat = f.readline().rstrip()
             str = f.readline().rstrip()
     elif "I" in data:
