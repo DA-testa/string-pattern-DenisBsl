@@ -1,29 +1,54 @@
 # python3
-
+# 221RDB188 Deniss Buslajevs 8. grupa
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    
-    
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
-    
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
-    return (input().rstrip(), input().rstrip())
+    data = input()
+    if "F" in data:
+        #data = input()
+        #with open("tests/" + data) as f:
+        with open("tests/06") as f:
+            pat = f.readline().rstrip()
+            str = f.readline().rstrip()
+    elif "I" in data:
+            pat = input().rstrip()
+            str = input().rstrip()
+    else:
+        exit
+
+    return (pat, str)
 
 def print_occurrences(output):
     # this function should control output, it doesn't need any return
     print(' '.join(map(str, output)))
 
-def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
+def get_hash(pattern: str) -> int:
+    B, Q = 13, 256
+    m = len(pattern)
+    result = 0
+    for i in range(m):
+        result = (B * result + ord(pattern[i])) % Q
+    return result
 
-    # and return an iterable variable
-    return [0]
+def get_occurrences(pattern, text):
+    output = []
+    pattern_len = len(pattern)
+    main_text_len = len(text)
+
+    phash = get_hash(pattern)
+    thash = get_hash(text[:pattern_len])
+
+    for i in range(main_text_len - pattern_len + 1):
+        if phash == thash:
+            check_string = True
+            for k in range(pattern_len):
+                if text[i + k] != pattern[k]:
+                    check_string = False
+                    break
+            if (check_string):
+                output.append(i)
+        if i < main_text_len - pattern_len:
+            thash = get_hash(text[i+1:pattern_len+i+1])
+
+    return output
 
 
 # this part launches the functions
